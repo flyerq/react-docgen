@@ -27,6 +27,7 @@ argv
       '  If a directory is passed, it is recursively traversed.'
   )
   .option('-o, --out <file>', 'Store extracted information in the FILE')
+  .option('--output-markdown', 'output markdown file')
   .option('--pretty', 'pretty print JSON')
   .option(
     '-x, --extension <extension>',
@@ -130,13 +131,15 @@ function writeError(msg, filePath) {
 }
 
 function writeResult(result) {
-  result = argv.pretty
+  const resultString = argv.pretty
     ? JSON.stringify(result, null, 2)
     : JSON.stringify(result);
   if (output) {
-    fs.writeFileSync(output, result);
+    argv.outputMarkdown
+      ? fs.writeFileSync(output, parser.generateMarkdown(result))
+      : fs.writeFileSync(output, resultString);
   } else {
-    process.stdout.write(result + '\n');
+    process.stdout.write(resultString + '\n');
   }
 }
 

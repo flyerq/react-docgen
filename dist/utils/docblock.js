@@ -1,3 +1,18 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _create = require('babel-runtime/core-js/object/create');
+
+var _create2 = _interopRequireDefault(_create);
+
+exports.getDocblock = getDocblock;
+exports.getDoclets = getDoclets;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 /*
  * Copyright (c) 2015, Facebook, Inc.
  * All rights reserved.
@@ -6,7 +21,7 @@
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * @flow
+ * 
  */
 
 /**
@@ -29,50 +44,26 @@ const DOCBLOCK_HEADER = /^\*\s/;
  * Given a path, this function returns the closest preceding docblock if it
  * exists.
  */
-export function getDocblock(
-  path: NodePath,
-  trailing: boolean = false,
-): ?string {
+function getDocblock(path, trailing = false) {
   let comments = [];
   let inlineComments = [];
 
   // 块级注释
   if (trailing && path.node.trailingComments) {
-    comments = path.node.trailingComments.filter(
-      comment =>
-        comment.type === 'CommentBlock' && DOCBLOCK_HEADER.test(comment.value),
-    );
+    comments = path.node.trailingComments.filter(comment => comment.type === 'CommentBlock' && DOCBLOCK_HEADER.test(comment.value));
   } else if (path.node.leadingComments) {
-    comments = path.node.leadingComments.filter(
-      comment =>
-        comment.type === 'CommentBlock' && DOCBLOCK_HEADER.test(comment.value),
-    );
+    comments = path.node.leadingComments.filter(comment => comment.type === 'CommentBlock' && DOCBLOCK_HEADER.test(comment.value));
   } else if (path.node.comments) {
-    comments = path.node.comments.filter(
-      comment =>
-        comment.leading &&
-        comment.type === 'CommentBlock' &&
-        DOCBLOCK_HEADER.test(comment.value),
-    );
+    comments = path.node.comments.filter(comment => comment.leading && comment.type === 'CommentBlock' && DOCBLOCK_HEADER.test(comment.value));
   }
 
   // 行内注释
   if (trailing && path.node.trailingComments) {
-    inlineComments = path.node.trailingComments.filter(
-      comment =>
-        comment.type === 'CommentLine',
-    );
+    inlineComments = path.node.trailingComments.filter(comment => comment.type === 'CommentLine');
   } else if (path.node.leadingComments) {
-    inlineComments = path.node.leadingComments.filter(
-      comment =>
-        comment.type === 'CommentLine',
-    );
+    inlineComments = path.node.leadingComments.filter(comment => comment.type === 'CommentLine');
   } else if (path.node.comments) {
-    inlineComments = path.node.comments.filter(
-      comment =>
-        comment.leading &&
-        comment.type === 'CommentLine',
-    );
+    inlineComments = path.node.comments.filter(comment => comment.leading && comment.type === 'CommentLine');
   }
 
   if (comments.length > 0) {
@@ -88,8 +79,8 @@ export function getDocblock(
  * Given a string, this functions returns an object with doclet names as keys
  * and their "content" as values.
  */
-export function getDoclets(str: string): Object {
-  const doclets = Object.create(null);
+function getDoclets(str) {
+  const doclets = (0, _create2.default)(null);
   let match = DOCLET_PATTERN.exec(str);
 
   for (; match; match = DOCLET_PATTERN.exec(str)) {

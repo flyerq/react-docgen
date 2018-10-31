@@ -1,0 +1,118 @@
+/**
+ * @description 分享按钮组件样式
+ * @author jhqu
+ * date: 2018-08-06
+ */
+
+.share-button {
+  $block: &;
+  position: relative;
+  height: 30px;
+  padding: 0 10px;
+  font-size: 12px;
+  color: #6e7378;
+  border-radius: 0;
+  border-color: #e0e1e7;
+
+  &:hover:not(.ant-popover-open) {
+    color: #6e7378;
+    border-color: #ccc;
+  }
+
+  & > .anticon {
+    font-size: 14px;
+    vertical-align: middle;
+  }
+
+  & > span {
+    vertical-align: middle;
+  }
+
+  // 分享组件弹出层
+  &__popover {
+
+    // 重置默认padding
+    .ant-popover-inner-content {
+      padding: 0;
+    }
+
+    &-inner-wrapper {
+      display: block;
+      min-width: 414px;
+      padding: 24px 0 24px 24px;
+      background: #fff;
+      box-sizing: content-box;
+      overflow: hidden;
+    }
+
+    &-share-content {
+      float: left;
+      text-align: left;
+    }
+    
+    &-share-title {
+      font-size: 13px;
+      color: #000;
+    }
+
+    &-share-url-box {
+      display: block;
+      width: 240px;
+      height: 30px;
+      line-height: 30px;
+      margin: 5px 0;
+      font-size: 13px;
+      border: 0;
+      background: transparent;
+      color: #5d5d5d;
+    }
+
+    &-share-copy-button {
+      position: relative;
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 12px;
+      line-height: 16px !important;
+      color: #fff;
+      background-color: #287ddc;
+      border: none;
+      border-radius: 2px;
+      box-sizing: content-box;
+      cursor: pointer;
+    }
+    &-share-copy-button:hover, &-share-copy-button:focus {
+      color: #fff;
+      background-color: #2563c1;
+      outline: none;
+    }
+    &-share-copy-button:active {
+      transform: scale(0.95);
+    }
+    &-copy-tooltip {
+      font-size: 12px;
+    }
+
+    &-share-qrcode {
+      float: right;
+      padding: 0 16px;
+      border-left: 1px solid #eee;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    &-qrcode-box {
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 10px;
+    }
+    &-qrcode-box img, &-qrcode-box canvas {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    &-qrcode-description {
+      font-size: 12px;
+      color: #000000;
+    }
+  }
+}

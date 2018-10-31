@@ -17,6 +17,7 @@ import * as utils from './utils';
 import type { Options } from './babelParser';
 import type { DocumentationObject } from './Documentation';
 import type { Handler, Resolver } from './types';
+import generateMarkdown from './generateMarkdown';
 
 const defaultResolver = AllResolver.findExportedComponentDefinition;
 const defaultHandlers = [
@@ -67,4 +68,5 @@ export {
   allHandlers as handlers,
   AllResolver as resolver,
   utils,
+  generateMarkdown,
 };
