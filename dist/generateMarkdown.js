@@ -12,26 +12,36 @@ var _template = require('lodash/template');
 
 var _template2 = _interopRequireDefault(_template);
 
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Generate markdown string from react component documentation JSON object
+ */
+
+const pkg = require(_path2.default.join(process.cwd(), 'package.json'));
 
 // Markdown文件字符串模板
 const markdownTemplate = `\
-# {{ componentName }} - {{ description }}
+# {{ componentName }} - {{ description || '__此处请修改为组件的中文名称__' }}
 
-__此处请修改为组件的详细说明信息__
+{{ packageDescription || '__此处请修改为组件的详细说明信息__' }}
 
-[**项目主页**](http://gitlab.niub.la/abc-widgets/???)
+[**项目主页**](http://gitlab.niub.la/abc-widgets/{{ packageName || '__此处请修改为组件的项目主页地址__' }})
 
 ## 适用范围
 
 __此处请修改为组件适用范围的详细说明信息__。下图是{{ description }}的演示截图：
 
-![{{ description }}截图](http://gitlab.niub.la/abc-components/assets/raw/master/img/???)
+![{{ description }}截图](http://gitlab.niub.la/abc-components/assets/raw/master/img/{{ packageName ? packageName + '-screenshot.jpg' : '__此处请修改为组件的截图路径__' }})
 
 ## 代码演示
 
 \`\`\`js
-import {{ componentName }} from '__此次请输入组件包名__';
+import {{ componentName }} from '{{ packageName || '__此次请修改为组件的包名__' }}';
 
 // ...
 
@@ -49,10 +59,6 @@ import {{ componentName }} from '__此次请输入组件包名__';
 `;
 
 // Markdown文件字符串模板渲染函数
-/**
- * Generate markdown string from react component documentation JSON object
- */
-
 const markdownRenderer = (0, _template2.default)(markdownTemplate, {
   escape: false,
   interpolate: /{{([\s\S]+?)}}/g
@@ -85,8 +91,10 @@ function generateMarkdown(reactAPI) {
   // 渲染Markdown文件字符串模板
   const markdownString = markdownRenderer({
     componentName: reactAPI.displayName,
-    description: reactAPI.description,
-    props: generateProps(reactAPI.props)
+    description: reactAPI.description || pkg.description,
+    props: generateProps(reactAPI.props),
+    packageName: pkg.name,
+    packageDescription: pkg.description
   });
 
   return markdownString;
